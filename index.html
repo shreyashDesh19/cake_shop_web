@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sweet Cravings – Handcrafted Cakes & Artisan Bakery</title>
+  
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --cream: #FFF8F0;
+      --light-pink: #FDF2F8;
+      --pink: #F4A7B9;
+      --dark-pink: #E8739A;
+      --brown: #8C4820;
+      --dark-brown: #5C3317;
+      --white: #ffffff;
+      --text: #2c2017;
+      --text-muted: #78716c;
+      --shadow: 0 8px 24px rgba(92, 51, 23, 0.08);
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--cream);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    h1, h2, h3, h4, .serif-font { font-family: 'Playfair Display', serif; }
+
+    /* Navbar */
+    .navbar {
+      background-color: var(--white);
+      box-shadow: 0 2px 16px rgba(92, 51, 23, 0.06);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    .navbar-brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--dark-brown) !important;
+    }
+    .nav-link {
+      font-weight: 500;
+      color: var(--text) !important;
+      transition: var(--transition);
+      cursor: pointer;
+    }
+    .nav-link:hover, .nav-link.active {
+      color: var(--dark-pink) !important;
+    }
+    .cart-badge {
+      background-color: var(--dark-pink);
+      color: white;
+      font-size: 0.75rem;
+      border-radius: 50rem;
+      padding: 0.2em 0.6em;
+      vertical-align: top;
+    }
+
+    /* Buttons */
+    .btn-primary-custom {
+      background-color: var(--dark-brown);
+      color: var(--cream);
+      border: 2px solid var(--dark-brown);
+      border-radius: 50rem;
+      padding: 0.55rem 1.6rem;
+      font-weight: 600;
+      transition: var(--transition);
+    }
+    .btn-primary-custom:hover {
+      background-color: var(--brown);
+      border-color: var(--brown);
+      color: white;
+      transform: translateY(-2px);
+    }
+    .btn-pink {
+      background-color: var(--pink);
+      color: var(--dark-brown);
+      border: none;
+      border-radius: 50rem;
+      padding: 0.55rem 1.4rem;
+      font-weight: 600;
+      transition: var(--transition);
+    }
+    .btn-pink:hover {
+      background-color: var(--dark-pink);
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    /* Cake Card */
+    .cake-card {
+      background: var(--white);
+      border: 1px solid rgba(244, 167, 185, 0.3);
+      border-radius: 1.25rem;
+      overflow: hidden;
+      transition: var(--transition);
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+    .cake-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 32px rgba(92, 51, 23, 0.12);
+    }
+    .cake-img-wrap {
+      height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4.5rem;
+      position: relative;
+    }
+    .bg-cake-1 { background: linear-gradient(135deg, #FFF0F5, #FEE2E2); }
+    .bg-cake-2 { background: linear-gradient(135deg, #FEF3C7, #FDE68A); }
+    .bg-cake-3 { background: linear-gradient(135deg, #E0E7FF, #C7D2FE); }
+    .bg-cake-4 { background: linear-gradient(135deg, #DCFCE7, #BBF7D0); }
+    .bg-cake-5 { background: linear-gradient(135deg, #F3E8FF, #E9D5FF); }
+    .bg-cake-6 { background: linear-gradient(135deg, #FFE4E6, #FECDD3); }
+
+    .category-badge {
+      background-color: var(--light-pink);
+      color: var(--brown);
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.3rem 0.8rem;
+      border-radius: 50rem;
+      display: inline-block;
+    }
+    .price-text {
+      color: var(--dark-brown);
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+
+    /* Category Pill filter */
+    .cat-pill {
+      border: 1.5px solid var(--dark-brown);
+      border-radius: 50rem;
+      padding: 0.4rem 1.2rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--dark-brown);
+      background: white;
+      cursor: pointer;
+      transition: var(--transition);
+      margin: 0.25rem;
+      display: inline-block;
+    }
+    .cat-pill.active, .cat-pill:hover {
+      background: var(--dark-brown);
+      color: var(--cream);
+    }
+
+    /* Section Views */
+    .view-section { display: none; }
+    .view-section.active { display: block; }
+
+    /* Footer */
+    footer {
+      background-color: var(--dark-brown);
+      color: var(--cream);
+      margin-top: auto;
+      padding: 3rem 0 1.5rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── NAVBAR ── -->
+  <nav class="navbar navbar-expand-lg">
+    <div class="container">
+      <a class="navbar-brand" onclick="navigateTo('home')">
+        🎂 Sweet Cravings
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navContent">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      
+      <div class="collapse navbar-collapse" id="navContent">
+        <ul class="navbar-nav ms-auto align-items-center gap-2">
+          <li class="nav-item">
+            <a class="nav-link active" id="nav-home" onclick="navigateTo('home')">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="nav-cakes" onclick="navigateTo('cakes')">Cakes Menu</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="nav-orders" onclick="navigateTo('orders')">My Orders</a>
+          </li>
+          <li class="nav-item">
+            <button class="btn btn-pink position-relative ms-2" onclick="navigateTo('cart')">
+              <i class="bi bi-cart3 me-1"></i> Cart
+              <span class="cart-badge ms-1" id="cart-counter">0</span>
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── TOAST NOTIFICATIONS ── -->
+  <div class="position-fixed top-0 end-0 p-3" style="z-index: 1100;">
+    <div id="appToast" class="toast align-items-center text-white bg-dark border-0 rounded-4" role="alert">
+      <div class="d-flex">
+        <div class="toast-body" id="toastMessage">Notification</div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════
+       VIEW 1: HOME PAGE
+  ══════════════════════════════════════════════════════════ -->
+  <section id="view-home" class="view-section active">
+    <!-- Hero Banner -->
+    <div style="background: linear-gradient(135deg, #FFF8F0 0%, #FDF2F8 100%); padding: 5rem 0 4rem; border-bottom: 1px solid rgba(244,167,185,0.25);">
+      <div class="container text-center">
+        <span class="badge rounded-pill px-3 py-2 mb-3" style="background:var(--pink); color:var(--dark-brown); font-size:0.85rem;">
+          ✨ Freshly Baked with 100% Pure Dairy Cream & Belgian Cocoa
+        </span>
+        <h1 class="display-4 fw-bold mb-3" style="color:var(--dark-brown);">
+          Baked with Love, Crafted for Joy
+        </h1>
+        <p class="lead mx-auto mb-4 text-muted" style="max-width: 650px;">
+          Explore handcrafted artisan cakes, gourmet Belgian chocolate delights, customized celebration cakes, and instant doorstep delivery across the city.
+        </p>
+        <div class="d-flex justify-content-center gap-3">
+          <button class="btn btn-primary-custom" onclick="navigateTo('cakes')">
+            <i class="bi bi-cake2 me-2"></i>Explore All Cakes
+          </button>
+          <button class="btn btn-outline-dark rounded-pill px-4" onclick="filterByCategory('Chocolate')">
+            Chocolate Specials
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Featured Categories -->
+    <div class="container py-5">
+      <div class="text-center mb-5">
+        <h2 style="color:var(--dark-brown);">Celebration Collections</h2>
+        <p class="text-muted">Choose from our curated gourmet themes</p>
+      </div>
+      <div class="row g-4 text-center">
+        <div class="col-6 col-md">
+          <div class="p-3 bg-white rounded-4 shadow-sm h-100" style="cursor:pointer;" onclick="filterByCategory('Birthday')">
+            <div style="font-size:2.8rem;">🎁</div>
+            <h6 class="mt-2 fw-bold" style="color:var(--dark-brown);">Birthday Cakes</h6>
+          </div>
+        </div>
+        <div class="col-6 col-md">
+          <div class="p-3 bg-white rounded-4 shadow-sm h-100" style="cursor:pointer;" onclick="filterByCategory('Chocolate')">
+            <div style="font-size:2.8rem;">🍫</div>
+            <h6 class="mt-2 fw-bold" style="color:var(--dark-brown);">Chocolate Specials</h6>
+          </div>
+        </div>
+        <div class="col-6 col-md">
+          <div class="p-3 bg-white rounded-4 shadow-sm h-100" style="cursor:pointer;" onclick="filterByCategory('Wedding')">
+            <div style="font-size:2.8rem;">💒</div>
+            <h6 class="mt-2 fw-bold" style="color:var(--dark-brown);">Wedding Tiers</h6>
+          </div>
+        </div>
+        <div class="col-6 col-md">
+          <div class="p-3 bg-white rounded-4 shadow-sm h-100" style="cursor:pointer;" onclick="filterByCategory('Black Forest')">
+            <div style="font-size:2.8rem;">🍒</div>
+            <h6 class="mt-2 fw-bold" style="color:var(--dark-brown);">Black Forest</h6>
+          </div>
+        </div>
+        <div class="col-6 col-md">
+          <div class="p-3 bg-white rounded-4 shadow-sm h-100" style="cursor:pointer;" onclick="filterByCategory('Custom')">
+            <div style="font-size:2.8rem;">🎨</div>
+            <h6 class="mt-2 fw-bold" style="color:var(--dark-brown);">Custom Cakes</h6>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Featured Cakes Showcase -->
+    <div class="container pb-5">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+          <h2 style="color:var(--dark-brown);">⭐ Featured Delights</h2>
+          <p class="text-muted mb-0">Our most requested artisan masterpieces</p>
+        </div>
+        <button class="btn btn-outline-dark rounded-pill px-3 btn-sm" onclick="navigateTo('cakes')">
+          View All Cakes →
+        </button>
+      </div>
+      <div class="row g-4" id="featured-cakes-container">
+        <!-- Injected by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════
+       VIEW 2: CAKES CATALOG & SEARCH
+  ══════════════════════════════════════════════════════════ -->
+  <section id="view-cakes" class="view-section">
+    <div class="container py-4">
+      <div class="text-center mb-4">
+        <h2 style="color:var(--dark-brown);">Our Artisan Cakes Catalog</h2>
+        <p class="text-muted">Explore freshly baked handcrafted cakes with custom weight & flavour</p>
+      </div>
+
+      <!-- Search & Category Filters -->
+      <div class="bg-white p-3 rounded-4 shadow-sm mb-4">
+        <div class="row g-3 align-items-center">
+          <div class="col-md-6">
+            <div class="input-group">
+              <span class="input-group-text bg-white border-end-0"><i class="bi bi-search"></i></span>
+              <input type="text" id="searchInput" class="form-control border-start-0" placeholder="Search by cake name or ingredients..." onkeyup="renderCakes()">
+            </div>
+          </div>
+          <div class="col-md-6 text-md-end" id="categoryPills">
+            <span class="cat-pill active" onclick="setCategoryFilter('All')">All</span>
+            <span class="cat-pill" onclick="setCategoryFilter('Birthday')">Birthday</span>
+            <span class="cat-pill" onclick="setCategoryFilter('Chocolate')">Chocolate</span>
+            <span class="cat-pill" onclick="setCategoryFilter('Wedding')">Wedding</span>
+            <span class="cat-pill" onclick="setCategoryFilter('Black Forest')">Black Forest</span>
+            <span class="cat-pill" onclick="setCategoryFilter('Custom')">Custom</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cake Cards Grid -->
+      <div class="row g-4" id="all-cakes-container">
+        <!-- Injected by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════
+       VIEW 3: CAKE DETAIL & CUSTOMIZATION MODAL
+  ══════════════════════════════════════════════════════════ -->
+  <div class="modal fade" id="cakeDetailModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content rounded-4 border-0">
+        <div class="modal-header border-0 pb-0">
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body p-4 pt-0">
+          <div class="row g-4 align-items-center">
+            <div class="col-md-5">
+              <div id="modalCakeImg" class="rounded-4 p-4 text-center d-flex align-items-center justify-content-center" style="height:260px; font-size:6rem;">
+                🎂
+              </div>
+            </div>
+            <div class="col-md-7">
+              <span id="modalCategoryBadge" class="category-badge mb-2">Category</span>
+              <h3 id="modalCakeName" class="fw-bold mb-2" style="color:var(--dark-brown);">Cake Name</h3>
+              <p id="modalCakeDesc" class="text-muted mb-3" style="font-size:0.95rem;">Description</p>
+              
+              <div class="mb-3">
+                <span class="price-text" id="modalPrice">₹699.00</span>
+                <span class="text-muted ms-2" style="font-size:0.85rem;">(Price adjusts for chosen size)</span>
+              </div>
+
+              <!-- Options -->
+              <div class="row g-2 mb-3">
+                <div class="col-6">
+                  <label class="form-label small fw-bold">Select Size / Weight</label>
+                  <select id="modalSizeSelect" class="form-select rounded-3" onchange="updateModalPrice()">
+                    <option value="0.5kg">0.5 kg (Small)</option>
+                    <option value="1kg" selected>1.0 kg (Standard)</option>
+                    <option value="1.5kg">1.5 kg (Medium)</option>
+                    <option value="2kg">2.0 kg (Large)</option>
+                  </select>
+                </div>
+                <div class="col-6">
+                  <label class="form-label small fw-bold">Select Flavour</label>
+                  <select id="modalFlavourSelect" class="form-select rounded-3">
+                    <!-- Dynamic -->
+                  </select>
+                </div>
+              </div>
+
+              <div class="d-flex align-items-center gap-3 mt-4">
+                <div class="input-group" style="width: 120px;">
+                  <button class="btn btn-outline-secondary" onclick="adjustModalQty(-1)">-</button>
+                  <input type="text" id="modalQty" class="form-control text-center" value="1" readonly>
+                  <button class="btn btn-outline-secondary" onclick="adjustModalQty(1)">+</button>
+                </div>
+                <button class="btn btn-primary-custom flex-grow-1" onclick="addModalItemToCart()">
+                  <i class="bi bi-cart-plus me-1"></i> Add to Cart
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════
+       VIEW 4: SHOPPING CART
+  ══════════════════════════════════════════════════════════ -->
+  <section id="view-cart" class="view-section">
+    <div class="container py-5">
+      <h2 class="mb-4" style="color:var(--dark-brown);"><i class="bi bi-bag-check me-2"></i>Your Shopping Cart</h2>
+      
+      <div class="row g-4">
+        <!-- Cart Items List -->
+        <div class="col-lg-8">
+          <div class="bg-white p-4 rounded-4 shadow-sm" id="cart-items-wrapper">
+            <!-- Injected by JS -->
+          </div>
+        </div>
+
+        <!-- Bill Summary -->
+        <div class="col-lg-4">
+          <div class="bg-white p-4 rounded-4 shadow-sm sticky-top" style="top:90px;">
+            <h5 class="fw-bold mb-3" style="color:var(--dark-brown);">Order Summary</h5>
+            <div class="d-flex justify-content-between mb-2">
+              <span class="text-muted">Items Subtotal</span>
+              <span class="fw-semibold" id="cart-subtotal">₹0.00</span>
+            </div>
+            <div class="d-flex justify-content-between mb-2">
+              <span class="text-muted">Doorstep Delivery</span>
+              <span class="text-success fw-semibold">FREE</span>
+            </div>
+            <hr>
+            <div class="d-flex justify-content-between mb-4">
+              <strong style="color:var(--dark-brown); font-size:1.15rem;">Total Amount</strong>
+              <strong style="color:var(--dark-brown); font-size:1.15rem;" id="cart-total">₹0.00</strong>
+            </div>
+
+            <button class="btn btn-primary-custom w-100 py-2 mb-2" onclick="navigateTo('checkout')" id="btn-to-checkout">
+              Proceed to Checkout <i class="bi bi-arrow-right ms-1"></i>
+            </button>
+            <button class="btn btn-outline-secondary w-100 rounded-pill btn-sm" onclick="navigateTo('cakes')">
+              ← Continue Shopping
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════
+       VIEW 5: CHECKOUT & CASH ON DELIVERY FORM
+  ══════════════════════════════════════════════════════════ -->
+  <section id="view-checkout" class="view-section">
+    <div class="container py-5">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="bg-white p-4 p-md-5 rounded-4 shadow-sm">
+            <h3 class="fw-bold mb-4" style="color:var(--dark-brown);">
+              <i class="bi bi-geo-alt me-2" style="color:var(--dark-pink);"></i>Delivery & Contact Details
+            </h3>
+
+            <form id="checkoutForm" onsubmit="handlePlaceOrder(event)">
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label class="form-label small fw-bold">Full Name *</label>
+                  <input type="text" id="chk-name" class="form-control" placeholder="e.g. Shreyash Deshmukh" required>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label small fw-bold">10-Digit Mobile Number *</label>
+                  <input type="tel" id="chk-phone" class="form-control" placeholder="e.g. 9876543210" pattern="[6-9][0-9]{9}" required>
+                </div>
+                <div class="col-12">
+                  <label class="form-label small fw-bold">Doorstep Delivery Address *</label>
+                  <textarea id="chk-address" class="form-control" rows="3" placeholder="Enter complete flat no, building, street, area, city & pincode" required></textarea>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label small fw-bold">Delivery Date *</label>
+                  <input type="date" id="chk-date" class="form-control" required>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label small fw-bold">Payment Method</label>
+                  <div class="form-control bg-light d-flex align-items-center">
+                    <i class="bi bi-cash-stack text-success me-2 fs-5"></i>
+                    <strong>Cash on Delivery (COD)</strong>
+                  </div>
+                </div>
+              </div>
+
+              <div class="p-3 bg-light rounded-3 my-4">
+                <div class="d-flex justify-content-between align-items-center">
+                  <span>Grand Total to Pay on Delivery:</span>
+                  <span class="fs-4 fw-bold" style="color:var(--dark-brown);" id="checkout-total">₹0.00</span>
+                </div>
+              </div>
+
+              <div class="d-flex gap-3">
+                <button type="button" class="btn btn-outline-secondary rounded-pill px-4" onclick="navigateTo('cart')">
+                  Back to Cart
+                </button>
+                <button type="submit" class="btn btn-primary-custom flex-grow-1 py-2">
+                  <i class="bi bi-check2-circle me-1"></i> Place Order (Cash on Delivery)
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════
+       VIEW 6: CUSTOMER ORDERS (TRACKING)
+  ══════════════════════════════════════════════════════════ -->
+  <section id="view-orders" class="view-section">
+    <div class="container py-5">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+          <h2 style="color:var(--dark-brown);"><i class="bi bi-clock-history me-2"></i>My Orders & Tracking</h2>
+          <p class="text-muted mb-0">View your active order status and past purchases</p>
+        </div>
+        <button class="btn btn-primary-custom btn-sm" onclick="navigateTo('cakes')">
+          Order Another Cake
+        </button>
+      </div>
+
+      <div id="orders-container">
+        <!-- Injected by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <div class="container">
+      <div class="row g-4 mb-4">
+        <div class="col-md-4">
+          <h4 class="serif-font mb-3">🎂 Sweet Cravings</h4>
+          <p style="font-size: 0.9rem; opacity: 0.85;">
+            Handcrafted celebration cakes, bespoke artisan desserts, and freshly baked confectionery made with certified pure dairy ingredients and Belgian couverture.
+          </p>
+        </div>
+        <div class="col-md-4">
+          <h5 class="serif-font mb-3">Our Cake Categories</h5>
+          <ul class="list-unstyled" style="font-size: 0.9rem; opacity: 0.85;">
+            <li>🎁 Birthday Surprise Cakes</li>
+            <li>🍫 Gourmet Belgian Chocolate</li>
+            <li>💒 Multi-Tiered Wedding Confections</li>
+            <li>🍒 Classic Black Forest Gateaux</li>
+            <li>🎨 Custom Celebration Orders</li>
+          </ul>
+        </div>
+        <div class="col-md-4">
+          <h5 class="serif-font mb-3">Contact & Bakery Studio</h5>
+          <p style="font-size: 0.9rem; opacity: 0.85;">
+            📍 Ashoka Center, Lane 4, Pune - 411015<br>
+            📞 Phone: +91 90499-50192 / +91 95451-92509<br>
+            🕒 Kitchen Hours: 9:00 AM - 10:00 PM (Everyday)
+          </p>
+        </div>
+      </div>
+      <hr style="border-color: rgba(255,255,255,0.15);">
+      <div class="text-center small opacity-75">
+        &copy; 2026 Sweet Cravings Bakery. Built with HTML5, CSS3, JavaScript & Bootstrap 5.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap 5 JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- ── SINGLE PAGE APPLICATION ENGINE ── -->
+  <script>
+    // 12 Pre-Seeded Artisan Cakes Catalog
+    const CAKES_CATALOG = [
+      {
+        id: 1,
+        name: "Chocolate Truffle Delight",
+        category: "Chocolate",
+        price: 699.00,
+        desc: "Layers of dense chocolate sponge smothered in silky Dutch dark chocolate ganache and chocolate curls.",
+        sizes: ["0.5kg", "1kg", "1.5kg", "2kg"],
+        flavours: ["Dark Chocolate", "Milk Chocolate", "Hazelnut Truffle"],
+        featured: true,
+        emoji: "🎂",
+        bg: "bg-cake-1"
+      },
+      {
+        id: 2,
+        name: "Classic Black Forest Gateau",
+        category: "Black Forest",
+        price: 599.00,
+        desc: "Authentic German-style chocolate sponge layered with sweet maraschino cherries, fresh vanilla cream and dark curls.",
+        sizes: ["0.5kg", "1kg", "2kg"],
+        flavours: ["Classic Cherry", "Dark Rum Choc"],
+        featured: true,
+        emoji: "🍒",
+        bg: "bg-cake-2"
+      },
+      {
+        id: 3,
+        name: "Red Velvet Romance Cake",
+        category: "Birthday",
+        price: 749.00,
+        desc: "Vibrant crimson velvet sponge topped with luscious Philadelphia cream cheese frosting and fine red velvet crumbles.",
+        sizes: ["0.5kg", "1kg", "1.5kg", "2kg"],
+        flavours: ["Cream Cheese", "White Chocolate Velvet"],
+        featured: true,
+        emoji: "❤️",
+        bg: "bg-cake-3"
+      },
+      {
+        id: 4,
+        name: "Royale Belgian Chocolate",
+        category: "Chocolate",
+        price: 849.00,
+        desc: "Pure imported Belgian chocolate ganache folded with roasted California almond slivers and cocoa nibs.",
+        sizes: ["0.5kg", "1kg", "2kg"],
+        flavours: ["Pure 70% Dark", "Almond Praline"],
+        featured: true,
+        emoji: "🍫",
+        bg: "bg-cake-4"
+      },
+      {
+        id: 5,
+        name: "White Forest Raspberry",
+        category: "Black Forest",
+        price: 649.00,
+        desc: "Delicate vanilla bean sponge filled with tart wild raspberry compote, white chocolate shavings, and chantilly cream.",
+        sizes: ["0.5kg", "1kg", "1.5kg"],
+        flavours: ["Raspberry Vanilla", "White Strawberry"],
+        featured: false,
+        emoji: "🍓",
+        bg: "bg-cake-5"
+      },
+      {
+        id: 6,
+        name: "Regal 2-Tier Wedding Cake",
+        category: "Wedding",
+        price: 2499.00,
+        desc: "Handcrafted two-tier celebration masterpiece draped in smooth satin fondant and hand-sculpted sugar flowers.",
+        sizes: ["2kg", "3kg", "4kg"],
+        flavours: ["Vanilla Fondant", "Almond Rose", "Lemon Curd"],
+        featured: true,
+        emoji: "💒",
+        bg: "bg-cake-6"
+      },
+      {
+        id: 7,
+        name: "Butterscotch Crunch Carnival",
+        category: "Birthday",
+        price: 549.00,
+        desc: "Moist sponge layered with rich brown butter caramel cream and caramelized crunchy praline nuggets.",
+        sizes: ["0.5kg", "1kg", "2kg"],
+        flavours: ["Crunchy Caramel", "Salted Butterscotch"],
+        featured: false,
+        emoji: "🍬",
+        bg: "bg-cake-1"
+      },
+      {
+        id: 8,
+        name: "Fresh Tropical Fruit Medley",
+        category: "Custom",
+        price: 699.00,
+        desc: "Light sponge adorned with seasonal Kiwi, Dragon fruit, Pomegranate, and glazed sweet orange wedges.",
+        sizes: ["0.5kg", "1kg", "2kg"],
+        flavours: ["Mango Kiwi", "Tropical Citrus"],
+        featured: false,
+        emoji: "🥝",
+        bg: "bg-cake-2"
+      },
+      {
+        id: 9,
+        name: "Choco-Lava Dream Overload",
+        category: "Chocolate",
+        price: 799.00,
+        desc: "Gooey warm chocolate center encased in fudgy chocolate cake layers, topped with miniature brownies.",
+        sizes: ["0.5kg", "1kg"],
+        flavours: ["Molten Fudge", "Nutella Swirl"],
+        featured: true,
+        emoji: "🌋",
+        bg: "bg-cake-3"
+      },
+      {
+        id: 10,
+        name: "Floral Garden Wedding Cake",
+        category: "Wedding",
+        price: 3199.00,
+        desc: "Three-tiered architectural confectionery garnished with fresh edible organic roses and delicate gold leaf.",
+        sizes: ["3kg", "5kg"],
+        flavours: ["Champagne Rose", "Belgian Ivory"],
+        featured: false,
+        emoji: "🌸",
+        bg: "bg-cake-4"
+      },
+      {
+        id: 11,
+        name: "KitKat & Gems Birthday Fun",
+        category: "Birthday",
+        price: 799.00,
+        desc: "Surrounded by crispy Nestle KitKat chocolate fingers and crowned with colorful chocolate Gems.",
+        sizes: ["1kg", "1.5kg", "2kg"],
+        flavours: ["Chocolate Gems", "Vanilla KitKat"],
+        featured: false,
+        emoji: "🎉",
+        bg: "bg-cake-5"
+      },
+      {
+        id: 12,
+        name: "Custom Photo Celebration Cake",
+        category: "Custom",
+        price: 899.00,
+        desc: "Personalized edible sugar-sheet photo print framed by hand-piped Swiss meringue buttercream rosettes.",
+        sizes: ["1kg", "1.5kg", "2kg"],
+        flavours: ["Chocolate Photo", "Vanilla Buttercream"],
+        featured: false,
+        emoji: "📸",
+        bg: "bg-cake-6"
+      }
+    ];
+
+    // Multipliers for sizing
+    const SIZE_MULTIPLIERS = {
+      "0.5kg": 0.60,
+      "1kg": 1.00,
+      "1.5kg": 1.45,
+      "2kg": 1.85,
+      "3kg": 2.70,
+      "4kg": 3.50,
+      "5kg": 4.20
+    };
+
+    // State Variables
+    let currentCategory = "All";
+    let activeModalCake = null;
+
+    // Local Storage Helpers
+    function getStoredCart() {
+      try {
+        return JSON.parse(localStorage.getItem('sweet_cravings_cart')) || [];
+      } catch(e) { return []; }
+    }
+    function saveCart(cart) {
+      localStorage.setItem('sweet_cravings_cart', JSON.stringify(cart));
+      updateCartBadge();
+    }
+    function getStoredOrders() {
+      try {
+        return JSON.parse(localStorage.getItem('sweet_cravings_orders')) || [];
+      } catch(e) { return []; }
+    }
+    function saveOrders(orders) {
+      localStorage.setItem('sweet_cravings_orders', JSON.stringify(orders));
+    }
+
+    // Navigation Router
+    function navigateTo(viewId) {
+      document.querySelectorAll('.view-section').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+      
+      const targetSec = document.getElementById(`view-${viewId}`);
+      if (targetSec) targetSec.classList.add('active');
+
+      const targetNav = document.getElementById(`nav-${viewId}`);
+      if (targetNav) targetNav.classList.add('active');
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      if (viewId === 'cart') renderCartView();
+      if (viewId === 'orders') renderOrdersView();
+      if (viewId === 'cakes') renderCakes();
+      if (viewId === 'home') renderFeaturedCakes();
+      if (viewId === 'checkout') updateCheckoutView();
+    }
+
+    function showToast(msg) {
+      document.getElementById('toastMessage').textContent = msg;
+      const toastEl = document.getElementById('appToast');
+      const toast = new bootstrap.Toast(toastEl, { delay: 2500 });
+      toast.show();
+    }
+
+    // Render Featured Cakes on Homepage
+    function renderFeaturedCakes() {
+      const container = document.getElementById('featured-cakes-container');
+      const featured = CAKES_CATALOG.filter(c => c.featured);
+      container.innerHTML = featured.map(c => `
+        <div class="col-sm-6 col-lg-3">
+          <div class="cake-card">
+            <div class="cake-img-wrap ${c.bg}">
+              ${c.emoji}
+            </div>
+            <div class="p-3 d-flex flex-column flex-grow-1">
+              <span class="category-badge mb-2 align-self-start">${c.category}</span>
+              <h6 class="fw-bold mb-1" style="color:var(--dark-brown);">${c.name}</h6>
+              <p class="text-muted small flex-grow-1 mb-2">${c.desc.substring(0, 55)}...</p>
+              <div class="d-flex justify-content-between align-items-center mt-2 pt-2 border-top">
+                <span class="price-text">₹${c.price.toFixed(2)}</span>
+                <button class="btn btn-sm btn-primary-custom" onclick="openCakeDetail(${c.id})">
+                  Order Now
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Filter & Render All Cakes
+    function setCategoryFilter(cat) {
+      currentCategory = cat;
+      document.querySelectorAll('.cat-pill').forEach(p => {
+        p.classList.toggle('active', p.textContent.trim() === cat);
+      });
+      renderCakes();
+    }
+
+    function filterByCategory(cat) {
+      navigateTo('cakes');
+      setCategoryFilter(cat);
+    }
+
+    function renderCakes() {
+      const container = document.getElementById('all-cakes-container');
+      const search = (document.getElementById('searchInput')?.value || '').toLowerCase().trim();
+
+      let filtered = CAKES_CATALOG;
+      if (currentCategory !== "All") {
+        filtered = filtered.filter(c => c.category === currentCategory);
+      }
+      if (search) {
+        filtered = filtered.filter(c => 
+          c.name.toLowerCase().includes(search) || 
+          c.desc.toLowerCase().includes(search) ||
+          c.category.toLowerCase().includes(search)
+        );
+      }
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div class="col-12 text-center py-5">
+            <div style="font-size:3.5rem;">🍰</div>
+            <h5 class="mt-3 text-muted">No cakes match your criteria</h5>
+            <button class="btn btn-outline-dark btn-sm rounded-pill mt-2" onclick="setCategoryFilter('All'); document.getElementById('searchInput').value=''; renderCakes();">Reset Search</button>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = filtered.map(c => `
+        <div class="col-sm-6 col-lg-4 col-xl-3">
+          <div class="cake-card">
+            <div class="cake-img-wrap ${c.bg}">
+              ${c.emoji}
+            </div>
+            <div class="p-3 d-flex flex-column flex-grow-1">
+              <span class="category-badge mb-2 align-self-start">${c.category}</span>
+              <h6 class="fw-bold mb-1" style="color:var(--dark-brown);">${c.name}</h6>
+              <p class="text-muted small flex-grow-1 mb-2">${c.desc.substring(0, 60)}...</p>
+              <div class="d-flex justify-content-between align-items-center mt-2 pt-2 border-top">
+                <div>
+                  <span class="price-text">₹${c.price.toFixed(2)}</span>
+                  <div class="small text-muted" style="font-size:0.75rem;">/ 1kg base</div>
+                </div>
+                <button class="btn btn-sm btn-primary-custom" onclick="openCakeDetail(${c.id})">
+                  Select
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Cake Detail Modal Operations
+    const detailModal = new bootstrap.Modal(document.getElementById('cakeDetailModal'));
+
+    function openCakeDetail(id) {
+      const cake = CAKES_CATALOG.find(c => c.id === id);
+      if (!cake) return;
+      activeModalCake = cake;
+
+      document.getElementById('modalCakeName').textContent = cake.name;
+      document.getElementById('modalCategoryBadge').textContent = cake.category;
+      document.getElementById('modalCakeDesc').textContent = cake.desc;
+      
+      const imgWrap = document.getElementById('modalCakeImg');
+      imgWrap.className = `rounded-4 p-4 text-center d-flex align-items-center justify-content-center ${cake.bg}`;
+      imgWrap.textContent = cake.emoji;
+
+      // Populate Sizes
+      const sizeSel = document.getElementById('modalSizeSelect');
+      sizeSel.innerHTML = cake.sizes.map(s => `
+        <option value="${s}" ${s === '1kg' ? 'selected' : ''}>${s}</option>
+      `).join('');
+
+      // Populate Flavours
+      const flavSel = document.getElementById('modalFlavourSelect');
+      flavSel.innerHTML = cake.flavours.map(f => `
+        <option value="${f}">${f}</option>
+      `).join('');
+
+      document.getElementById('modalQty').value = 1;
+      updateModalPrice();
+      detailModal.show();
+    }
+
+    function updateModalPrice() {
+      if (!activeModalCake) return;
+      const size = document.getElementById('modalSizeSelect').value;
+      const factor = SIZE_MULTIPLIERS[size] || 1.0;
+      const computed = (activeModalCake.price * factor).toFixed(2);
+      document.getElementById('modalPrice').textContent = `₹${computed}`;
+    }
+
+    function adjustModalQty(delta) {
+      const qInput = document.getElementById('modalQty');
+      let val = parseInt(qInput.value) || 1;
+      val = Math.max(1, Math.min(10, val + delta));
+      qInput.value = val;
+    }
+
+    function addModalItemToCart() {
+      if (!activeModalCake) return;
+      const size = document.getElementById('modalSizeSelect').value;
+      const flavour = document.getElementById('modalFlavourSelect').value;
+      const qty = parseInt(document.getElementById('modalQty').value) || 1;
+      const factor = SIZE_MULTIPLIERS[size] || 1.0;
+      const finalPrice = Math.round(activeModalCake.price * factor);
+
+      const cart = getStoredCart();
+      const existingIdx = cart.findIndex(it => it.cakeId === activeModalCake.id && it.size === size && it.flavour === flavour);
+
+      if (existingIdx > -1) {
+        cart[existingIdx].qty += qty;
+      } else {
+        cart.push({
+          cartItemId: Date.now() + Math.random(),
+          cakeId: activeModalCake.id,
+          name: activeModalCake.name,
+          emoji: activeModalCake.emoji,
+          price: finalPrice,
+          size: size,
+          flavour: flavour,
+          qty: qty
+        });
+      }
+
+      saveCart(cart);
+      detailModal.hide();
+      showToast(`Added ${activeModalCake.name} (${size}) to Cart! 🛒`);
+    }
+
+    function updateCartBadge() {
+      const cart = getStoredCart();
+      const count = cart.reduce((sum, it) => sum + it.qty, 0);
+      document.getElementById('cart-counter').textContent = count;
+    }
+
+    // Shopping Cart Page Logic
+    function renderCartView() {
+      const cart = getStoredCart();
+      const wrapper = document.getElementById('cart-items-wrapper');
+      const checkoutBtn = document.getElementById('btn-to-checkout');
+
+      if (cart.length === 0) {
+        wrapper.innerHTML = `
+          <div class="text-center py-5">
+            <div style="font-size: 3.5rem;">🛒</div>
+            <h5 class="mt-3 text-muted">Your shopping cart is empty</h5>
+            <p class="small text-muted">Browse our handcrafted bakery catalog to add delicious treats!</p>
+            <button class="btn btn-primary-custom btn-sm mt-2" onclick="navigateTo('cakes')">
+              Browse Cakes
+            </button>
+          </div>
+        `;
+        document.getElementById('cart-subtotal').textContent = '₹0.00';
+        document.getElementById('cart-total').textContent = '₹0.00';
+        if (checkoutBtn) checkoutBtn.disabled = true;
+        return;
+      }
+
+      if (checkoutBtn) checkoutBtn.disabled = false;
+
+      let subtotal = 0;
+      wrapper.innerHTML = `
+        <h5 class="fw-bold mb-3" style="color:var(--dark-brown);">Cart Items (${cart.length})</h5>
+        <div class="table-responsive">
+          <table class="table align-middle">
+            <thead>
+              <tr class="text-muted small">
+                <th>Cake</th>
+                <th>Option</th>
+                <th>Price</th>
+                <th>Qty</th>
+                <th>Subtotal</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              ${cart.map(it => {
+                const itemTotal = it.price * it.qty;
+                subtotal += itemTotal;
+                return `
+                  <tr>
+                    <td>
+                      <div class="d-flex align-items-center gap-2">
+                        <span class="fs-3">${it.emoji}</span>
+                        <strong style="color:var(--dark-brown); font-size:0.95rem;">${it.name}</strong>
+                      </div>
+                    </td>
+                    <td>
+                      <span class="badge bg-light text-dark border">${it.size}</span>
+                      <small class="text-muted d-block">${it.flavour}</small>
+                    </td>
+                    <td>₹${it.price.toFixed(2)}</td>
+                    <td>
+                      <div class="d-flex align-items-center gap-1">
+                        <button class="btn btn-sm btn-outline-secondary py-0 px-2" onclick="modifyCartQty(${it.cartItemId}, -1)">-</button>
+                        <span class="px-2 fw-bold">${it.qty}</span>
+                        <button class="btn btn-sm btn-outline-secondary py-0 px-2" onclick="modifyCartQty(${it.cartItemId}, 1)">+</button>
+                      </div>
+                    </td>
+                    <td class="fw-bold" style="color:var(--dark-brown);">₹${itemTotal.toFixed(2)}</td>
+                    <td>
+                      <button class="btn btn-sm text-danger" onclick="removeCartItem(${it.cartItemId})">
+                        <i class="bi bi-trash3"></i>
+                      </button>
+                    </td>
+                  </tr>
+                `;
+              }).join('')}
+            </tbody>
+          </table>
+        </div>
+      `;
+
+      document.getElementById('cart-subtotal').textContent = `₹${subtotal.toFixed(2)}`;
+      document.getElementById('cart-total').textContent = `₹${subtotal.toFixed(2)}`;
+    }
+
+    function modifyCartQty(cartItemId, delta) {
+      let cart = getStoredCart();
+      const item = cart.find(it => it.cartItemId === cartItemId);
+      if (item) {
+        item.qty += delta;
+        if (item.qty <= 0) {
+          cart = cart.filter(it => it.cartItemId !== cartItemId);
+        }
+        saveCart(cart);
+        renderCartView();
+      }
+    }
+
+    function removeCartItem(cartItemId) {
+      let cart = getStoredCart();
+      cart = cart.filter(it => it.cartItemId !== cartItemId);
+      saveCart(cart);
+      renderCartView();
+      showToast("Item removed from cart");
+    }
+
+    // Checkout Form
+    function updateCheckoutView() {
+      const cart = getStoredCart();
+      if (cart.length === 0) {
+        navigateTo('cart');
+        return;
+      }
+      const total = cart.reduce((sum, it) => sum + (it.price * it.qty), 0);
+      document.getElementById('checkout-total').textContent = `₹${total.toFixed(2)}`;
+
+      // Set min date to tomorrow
+      const tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      document.getElementById('chk-date').min = tomorrow.toISOString().split('T')[0];
+    }
+
+    function handlePlaceOrder(e) {
+      e.preventDefault();
+      const cart = getStoredCart();
+      if (cart.length === 0) return;
+
+      const name = document.getElementById('chk-name').value.trim();
+      const phone = document.getElementById('chk-phone').value.trim();
+      const address = document.getElementById('chk-address').value.trim();
+      const date = document.getElementById('chk-date').value;
+      const total = cart.reduce((sum, it) => sum + (it.price * it.qty), 0);
+
+      const orderRecord = {
+        orderId: Math.floor(1000 + Math.random() * 9000),
+        placedAt: new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }),
+        customerName: name,
+        phone: phone,
+        address: address,
+        deliveryDate: date,
+        items: [...cart],
+        totalAmount: total,
+        status: "Baking"
+      };
+
+      const orders = getStoredOrders();
+      orders.unshift(orderRecord);
+      saveOrders(orders);
+
+      // Clear cart
+      saveCart([]);
+      
+      showToast("Order placed successfully! 🎂");
+      navigateTo('orders');
+    }
+
+    // Customer Orders History
+    function renderOrdersView() {
+      const orders = getStoredOrders();
+      const container = document.getElementById('orders-container');
+
+      if (orders.length === 0) {
+        container.innerHTML = `
+          <div class="bg-white p-5 rounded-4 shadow-sm text-center">
+            <div style="font-size:3.5rem;">📦</div>
+            <h5 class="mt-3 text-muted">No orders found yet</h5>
+            <p class="small text-muted">Place your first celebration cake order to track it here!</p>
+            <button class="btn btn-primary-custom btn-sm mt-2" onclick="navigateTo('cakes')">
+              Order A Cake
+            </button>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = orders.map(o => `
+        <div class="card border-0 rounded-4 shadow-sm mb-4">
+          <div class="card-header bg-white py-3 px-4 d-flex flex-wrap justify-content-between align-items-center border-bottom">
+            <div>
+              <strong style="color:var(--dark-brown);">Order #${o.orderId}</strong>
+              <span class="text-muted small ms-2">• Placed on ${o.placedAt}</span>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+              <span class="badge rounded-pill px-3 py-2" style="background:#FEF3C7; color:#B45309; font-weight:600;">
+                <i class="bi bi-fire me-1"></i> ${o.status}
+              </span>
+              <strong style="color:var(--dark-brown); font-size:1.1rem;">₹${o.totalAmount.toFixed(2)}</strong>
+            </div>
+          </div>
+          <div class="card-body p-4">
+            <div class="row g-3">
+              <div class="col-md-7 border-end">
+                <h6 class="small fw-bold text-muted mb-2">ORDERED ITEMS:</h6>
+                ${o.items.map(it => `
+                  <div class="d-flex align-items-center justify-content-between py-1">
+                    <div>
+                      <span class="me-2">${it.emoji}</span>
+                      <strong>${it.name}</strong> 
+                      <small class="text-muted">(${it.size}, ${it.flavour})</small>
+                    </div>
+                    <span class="text-muted">${it.qty} × ₹${it.price}</span>
+                  </div>
+                `).join('')}
+              </div>
+              <div class="col-md-5 ps-md-4">
+                <h6 class="small fw-bold text-muted mb-2">DELIVERY DETAILS:</h6>
+                <div class="small text-muted">
+                  <div><strong class="text-dark">${o.customerName}</strong> (${o.phone})</div>
+                  <div>📍 ${o.address}</div>
+                  <div class="mt-1">📅 Scheduled Delivery: <strong class="text-dark">${o.deliveryDate}</strong></div>
+                  <div class="mt-1">💵 Payment: <strong>Cash on Delivery (COD)</strong></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // App Initialization
+    document.addEventListener('DOMContentLoaded', () => {
+      updateCartBadge();
+      renderFeaturedCakes();
+      renderCakes();
+    });
+  </script>
+</body>
+</html>
