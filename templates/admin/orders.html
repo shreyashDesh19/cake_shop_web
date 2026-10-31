@@ -1,0 +1,108 @@
+{% extends "admin/admin_base.html" %}
+{% block title %}Orders{% endblock %}
+{% block page_title %}Customer Orders{% endblock %}
+
+{% block content %}
+
+<div class="bg-white rounded-4 shadow-sm p-4">
+  <h5 class="mb-4" style="color:var(--dark-brown);font-family:'Playfair Display',serif;">
+    All Orders ({{ orders|length }})
+  </h5>
+
+  {% if orders %}
+
+  {% for entry in orders %}
+  {% set order = entry['order'] %}
+  {% set items = entry['items'] %}
+  {# order: 0=id,1=user_id,2=full_name,3=phone,4=address,5=delivery_date,
+             6=payment,7=total,8=status,9=created_at,10=customer_name,11=customer_email #}
+
+  <div class="card border-0 mb-4 rounded-3" style="border:1px solid #f0ddd6!important;">
+
+    <!-- Order Header -->
+    <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2"
+         style="background:#f8f0ec;border:none;">
+      <div>
+        <strong style="color:var(--dark-brown)">Order #{{ order[0] }}</strong>
+        <span class="ms-2 text-muted" style="font-size:0.85rem;">
+          {{ order[9].strftime('%d %b %Y, %I:%M %p') if order[9] else '' }}
+        </span>
+      </div>
+      <div class="d-flex align-items-center gap-2">
+        <span class="status-badge status-{{ order[8].replace(' ','-') }}">{{ order[8] }}</span>
+        <strong style="color:var(--brown)">₹{{ "%.2f"|format(order[7]) }}</strong>
+      </div>
+    </div>
+
+    <div class="card-body">
+      <div class="row g-3">
+
+        <!-- Customer & Delivery info -->
+        <div class="col-md-4">
+          <h6 class="mb-2" style="color:var(--dark-brown)">Customer</h6>
+          <p class="mb-1" style="font-size:0.88rem;">
+            <i class="bi bi-person me-1 text-muted"></i>{{ order[10] }}
+          </p>
+          <p class="mb-1" style="font-size:0.88rem;">
+            <i class="bi bi-envelope me-1 text-muted"></i>{{ order[11] }}
+          </p>
+          <p class="mb-1" style="font-size:0.88rem;">
+            <i class="bi bi-telephone me-1 text-muted"></i>{{ order[3] }}
+          </p>
+          <p class="mb-1" style="font-size:0.88rem;">
+            <i class="bi bi-geo-alt me-1 text-muted"></i>{{ order[4] }}
+          </p>
+          <p class="mb-0" style="font-size:0.88rem;">
+            <i class="bi bi-calendar me-1 text-muted"></i>
+            Deliver by: <strong>{{ order[5].strftime('%d %b %Y') if order[5] else '' }}</strong>
+          </p>
+        </div>
+
+        <!-- Ordered items -->
+        <div class="col-md-5">
+          <h6 class="mb-2" style="color:var(--dark-brown)">Items</h6>
+          {% for item in items %}
+          {# item: 0=id,1=order_id,2=cake_id,3=cake_name,4=price,5=qty,6=size,7=flavour #}
+          <div class="d-flex gap-2 mb-1 align-items-center">
+            <span style="font-size:1.2rem;">🎂</span>
+            <div style="font-size:0.85rem;">
+              <strong>{{ item[3] }}</strong>
+              <span class="text-muted">| {{ item[6] }} | {{ item[7] }} × {{ item[5] }}</span>
+              = ₹{{ "%.2f"|format(item[4] * item[5]) }}
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+
+        <!-- Update Status -->
+        <div class="col-md-3">
+          <h6 class="mb-2" style="color:var(--dark-brown)">Update Status</h6>
+          <form action="{{ url_for('admin_update_status', order_id=order[0]) }}"
+                method="POST">
+            <select name="status" class="form-select form-select-sm mb-2">
+              {% for s in ['Pending','Confirmed','Baking','Out for Delivery','Delivered','Cancelled'] %}
+              <option value="{{ s }}" {% if s == order[8] %}selected{% endif %}>{{ s }}</option>
+              {% endfor %}
+            </select>
+            <button type="submit" class="btn btn-sm btn-brown w-100">
+              <i class="bi bi-check-circle me-1"></i>Update
+            </button>
+          </form>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+  {% endfor %}
+
+  {% else %}
+  <div class="text-center py-5 text-muted">
+    <i class="bi bi-bag-x" style="font-size:3rem;color:var(--pink)"></i>
+    <p class="mt-3">No orders have been placed yet.</p>
+  </div>
+  {% endif %}
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,193 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+<!-- ══════════ HERO ══════════ -->
+<section class="hero">
+  <div class="container">
+    <div class="row align-items-center">
+
+      <div class="col-lg-6 text-center text-lg-start" style="position:relative;z-index:2">
+        <p class="mb-2" style="color:var(--pink);font-weight:600;letter-spacing:2px;font-size:0.9rem;">
+          FRESHLY BAKED WITH LOVE
+        </p>
+        <h1>Indulge in Every <span>Sweet Moment</span></h1>
+        <p>
+          Handcrafted cakes for every celebration — birthdays, weddings, and
+          everything in between. Order online and get it delivered to your door!
+        </p>
+        <div class="d-flex gap-3 flex-wrap justify-content-center justify-content-lg-start">
+          <a href="{{ url_for('cakes') }}" class="btn btn-primary-custom btn-lg">
+            <i class="bi bi-grid me-2"></i>Browse Cakes
+          </a>
+          <a href="#categories" class="btn btn-outline-light btn-lg rounded-pill">
+            See Categories
+          </a>
+        </div>
+        <!-- Mini badges -->
+        <div class="d-flex gap-3 mt-4 flex-wrap justify-content-center justify-content-lg-start">
+          <span class="badge rounded-pill px-3 py-2"
+                style="background:rgba(255,255,255,0.15);color:#fde;font-size:0.8rem;">
+            🚚 Free Delivery Over ₹999
+          </span>
+          <span class="badge rounded-pill px-3 py-2"
+                style="background:rgba(255,255,255,0.15);color:#fde;font-size:0.8rem;">
+            ✅ Cash on Delivery
+          </span>
+        </div>
+      </div>
+
+      <div class="col-lg-6 text-center mt-5 mt-lg-0" style="position:relative;z-index:2">
+        <div class="hero-image-box mx-auto">🎂</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ CATEGORIES ══════════ -->
+<section id="categories" class="py-5" style="background: #fff8f5;">
+  <div class="container">
+    <div class="section-heading">
+      <h2>Cake Categories</h2>
+      <p>Find the perfect cake for every occasion</p>
+    </div>
+    <div class="row g-3 justify-content-center">
+      {% set icons = ['🎉', '🍫', '💍', '🌳', '🎨'] %}
+      {% for cat in categories %}
+      <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+        <a href="{{ url_for('cakes', category=cat[0]) }}" class="category-card">
+          <span class="category-icon">{{ icons[loop.index0] if loop.index0 < icons|length else '🎂' }}</span>
+          <div class="category-name">{{ cat[1] }}</div>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ FEATURED CAKES ══════════ -->
+<section class="py-5">
+  <div class="container">
+    <div class="section-heading">
+      <h2>Featured Cakes</h2>
+      <p>Our most loved, hand-picked favourites</p>
+    </div>
+    <div class="row g-4">
+      {% set bg_classes = ['bg-cake-1','bg-cake-2','bg-cake-4','bg-cake-5','bg-cake-9','bg-cake-11'] %}
+      {% set cake_emojis = ['🎂','🍰','🎁','🍫','🌸','🎉'] %}
+      {% for cake in featured_cakes %}
+      <div class="col-sm-6 col-md-4 col-lg-4">
+        <div class="cake-card h-100">
+          <!-- Image / Placeholder -->
+          <div class="cake-card-img-placeholder {{ bg_classes[loop.index0 % bg_classes|length] }}">
+            {{ cake_emojis[loop.index0 % cake_emojis|length] }}
+          </div>
+
+          <div class="cake-card-body">
+            <div class="d-flex justify-content-between align-items-start mb-1">
+              <span class="category-badge">{{ cake[11] }}</span>
+              {% if cake[8] %}<span class="badge bg-warning text-dark" style="font-size:0.7rem;">Featured</span>{% endif %}
+            </div>
+            <div class="cake-card-title mt-2">{{ cake[2] }}</div>
+            <div class="cake-card-desc">{{ cake[3] }}</div>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="cake-price">₹{{ "%.2f"|format(cake[4]) }} <span>/1kg</span></div>
+              <a href="{{ url_for('cake_detail', cake_id=cake[0]) }}"
+                 class="btn btn-primary-custom btn-sm">
+                Order Now
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% else %}
+      <div class="col-12 text-center text-muted py-5">
+        <i class="bi bi-cake2" style="font-size:3rem;color:var(--pink)"></i>
+        <p class="mt-3">No featured cakes yet. Check back soon!</p>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="text-center mt-5">
+      <a href="{{ url_for('cakes') }}" class="btn btn-brown btn-lg px-5">
+        View All Cakes <i class="bi bi-arrow-right ms-2"></i>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ STATS BAR ══════════ -->
+<section class="stats-bar">
+  <div class="container">
+    <div class="row g-4 text-center">
+      <div class="col-6 col-md-3 stat-item">
+        <div class="stat-number" data-target="{{ total_cakes }}" data-suffix="+">0</div>
+        <div class="stat-label">Cake Varieties</div>
+      </div>
+      <div class="col-6 col-md-3 stat-item">
+        <div class="stat-number" data-target="{{ [happy_customers, 200]|max }}" data-suffix="+">0</div>
+        <div class="stat-label">Happy Customers</div>
+      </div>
+      <div class="col-6 col-md-3 stat-item">
+        <div class="stat-number" data-target="5">0</div>
+        <div class="stat-label">Cake Categories</div>
+      </div>
+      <div class="col-6 col-md-3 stat-item">
+        <div class="stat-number" data-target="8">0</div>
+        <div class="stat-label">Years of Excellence</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ WHY CHOOSE US ══════════ -->
+<section class="py-5" style="background:#fff8f5;">
+  <div class="container">
+    <div class="section-heading">
+      <h2>Why Choose Us?</h2>
+      <p>We pour love into every slice</p>
+    </div>
+    <div class="row g-4">
+      {% set features = [
+        ('bi-award', 'Premium Quality', 'Only the finest ingredients — Belgian chocolate, fresh cream, and farm eggs.'),
+        ('bi-truck', 'Same-Day Delivery', 'Order before 2 PM and get your cake delivered the same day.'),
+        ('bi-palette', 'Custom Designs', 'Tell us your dream cake and our bakers will make it a reality.'),
+        ('bi-shield-check', 'Safe & Hygienic', 'All cakes are prepared in FSSAI certified kitchens with full hygiene compliance.'),
+      ] %}
+      {% for icon, title, desc in features %}
+      <div class="col-sm-6 col-lg-3 text-center">
+        <div class="p-4">
+          <div class="mb-3" style="font-size:2.5rem;color:var(--pink)">
+            <i class="bi {{ icon }}"></i>
+          </div>
+          <h5 style="color:var(--dark-brown)">{{ title }}</h5>
+          <p class="text-muted" style="font-size:0.9rem;">{{ desc }}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ CALL TO ACTION ══════════ -->
+<section class="py-5 text-center" style="background:linear-gradient(135deg,var(--dark-brown),var(--brown))">
+  <div class="container py-4">
+    <h2 class="text-white mb-3" style="font-size:2.2rem;">
+      Ready to Order Your Dream Cake?
+    </h2>
+    <p style="color:#d4b8a8;max-width:500px;margin:auto;" class="mb-4">
+      Register today, browse our delicious collection, and place your order in minutes!
+    </p>
+    {% if not session.get('user_id') %}
+    <a href="{{ url_for('register') }}" class="btn btn-primary-custom btn-lg me-3">
+      <i class="bi bi-person-plus me-2"></i>Get Started
+    </a>
+    {% endif %}
+    <a href="{{ url_for('cakes') }}" class="btn btn-outline-light btn-lg rounded-pill">
+      View Menu
+    </a>
+  </div>
+</section>
+
+{% endblock %}

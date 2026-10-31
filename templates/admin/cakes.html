@@ -1,0 +1,197 @@
+{% extends "admin/admin_base.html" %}
+{% block title %}Manage Cakes{% endblock %}
+{% block page_title %}Manage Cakes{% endblock %}
+
+{% block content %}
+
+<!-- ── Add New Cake Button ── -->
+<div class="mb-4">
+  <button class="btn btn-primary-custom" data-bs-toggle="modal" data-bs-target="#addCakeModal">
+    <i class="bi bi-plus-lg me-2"></i>Add New Cake
+  </button>
+</div>
+
+<!-- ── Cakes Table ── -->
+<div class="bg-white rounded-4 shadow-sm p-4">
+  <h5 class="mb-4" style="color:var(--dark-brown);font-family:'Playfair Display',serif;">
+    All Cakes ({{ cakes|length }})
+  </h5>
+
+  <div class="table-responsive">
+    <table class="table table-hover align-middle">
+      <thead style="background:#f8f0ec;">
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Category</th>
+          <th>Price</th>
+          <th>Stock</th>
+          <th>Featured</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for cake in cakes %}
+        {# cake cols: 0=id,1=cat_id,2=name,3=desc,4=price,5=image_url,
+                      6=sizes,7=flavours,8=is_featured,9=stock,10=created,11=cat_name #}
+        <tr>
+          <td><strong>#{{ cake[0] }}</strong></td>
+          <td>
+            <div class="d-flex align-items-center gap-2">
+              <div style="width:42px;height:42px;border-radius:8px;font-size:1.4rem;
+                          display:flex;align-items:center;justify-content:center;
+                          background:var(--light-pink);">🎂</div>
+              <div>
+                <div class="fw-semibold" style="color:var(--dark-brown)">{{ cake[2] }}</div>
+                <small class="text-muted">{{ cake[3][:50] }}{% if cake[3]|length > 50 %}…{% endif %}</small>
+              </div>
+            </div>
+          </td>
+          <td>
+            <span class="category-badge">{{ cake[11] }}</span>
+          </td>
+          <td class="fw-semibold" style="color:var(--brown)">
+            ₹{{ "%.2f"|format(cake[4]) }}
+          </td>
+          <td>{{ cake[9] }}</td>
+          <td>
+            {% if cake[8] %}
+              <span class="badge bg-warning text-dark">⭐ Yes</span>
+            {% else %}
+              <span class="text-muted">—</span>
+            {% endif %}
+          </td>
+          <td>
+            <a href="{{ url_for('admin_cake_edit', cake_id=cake[0]) }}"
+               class="btn btn-sm btn-outline-primary rounded-pill me-1">
+              <i class="bi bi-pencil"></i> Edit
+            </a>
+            <form action="{{ url_for('admin_cake_delete', cake_id=cake[0]) }}"
+                  method="POST" class="d-inline confirm-delete">
+              <button type="submit" class="btn btn-sm btn-outline-danger rounded-pill">
+                <i class="bi bi-trash3"></i> Delete
+              </button>
+            </form>
+          </td>
+        </tr>
+        {% else %}
+        <tr>
+          <td colspan="7" class="text-center text-muted py-4">
+            No cakes added yet. Click "Add New Cake" to get started.
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     ADD CAKE MODAL
+══════════════════════════════════════════════════════════ -->
+<div class="modal fade" id="addCakeModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content rounded-4">
+
+      <div class="modal-header" style="background:var(--dark-brown);color:var(--light-pink);">
+        <h5 class="modal-title">🎂 Add New Cake</h5>
+        <button type="button" class="btn-close btn-close-white"
+                data-bs-dismiss="modal"></button>
+      </div>
+
+      <form action="{{ url_for('admin_cake_add') }}" method="POST"
+            enctype="multipart/form-data">
+        <div class="modal-body p-4">
+          <div class="row g-3">
+
+            <div class="col-md-6">
+              <label class="form-label">Cake Name *</label>
+              <input type="text" name="name" class="form-control"
+                     placeholder="e.g. Chocolate Truffle" required>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Category *</label>
+              <select name="category_id" class="form-select" required>
+                <option value="">Select category</option>
+                {% for cat in categories %}
+                <option value="{{ cat[0] }}">{{ cat[1] }}</option>
+                {% endfor %}
+              </select>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Price (₹) *</label>
+              <input type="number" name="price" class="form-control"
+                     step="0.01" min="1" placeholder="699.00" required>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Stock</label>
+              <input type="number" name="stock" class="form-control"
+                     value="100" min="0">
+            </div>
+
+            <div class="col-12">
+              <label class="form-label">Description</label>
+              <textarea name="description" class="form-control" rows="3"
+                        placeholder="Describe the cake…"></textarea>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">
+                Available Sizes <small class="text-muted">(comma-separated)</small>
+              </label>
+              <input type="text" name="sizes" class="form-control"
+                     value="0.5kg,1kg,1.5kg,2kg"
+                     placeholder="0.5kg,1kg,1.5kg,2kg">
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">
+                Available Flavours <small class="text-muted">(comma-separated)</small>
+              </label>
+              <input type="text" name="flavours" class="form-control"
+                     value="Vanilla,Chocolate,Strawberry"
+                     placeholder="Vanilla,Chocolate,Strawberry">
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Cake Image</label>
+              <input type="file" name="image" id="cake-image-input"
+                     class="form-control" accept="image/*">
+              <img id="img-preview" src="" alt="Preview"
+                   style="display:none;max-width:100%;border-radius:8px;margin-top:8px;">
+            </div>
+
+            <div class="col-md-6 d-flex align-items-end">
+              <div class="form-check">
+                <input type="checkbox" name="is_featured" id="featured_check"
+                       class="form-check-input">
+                <label for="featured_check" class="form-check-label fw-semibold"
+                       style="color:var(--dark-brown)">
+                  ⭐ Mark as Featured
+                </label>
+                <div class="text-muted" style="font-size:0.8rem;">
+                  Featured cakes appear on the home page.
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary rounded-pill"
+                  data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-primary-custom">
+            <i class="bi bi-plus-lg me-1"></i>Add Cake
+          </button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+
+{% endblock %}

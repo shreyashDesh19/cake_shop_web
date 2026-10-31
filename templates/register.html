@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+{% block title %}Register{% endblock %}
+
+{% block content %}
+
+<section class="py-5" style="min-height:80vh;background:#f8f0ec;">
+  <div class="container">
+    <div class="form-card" style="max-width:560px;">
+
+      <div class="text-center mb-4">
+        <div style="font-size:3rem;">🎉</div>
+        <h2 style="color:var(--dark-brown);font-family:'Playfair Display',serif;">
+          Create an Account
+        </h2>
+        <p class="text-muted">Join Sweet Cravings and start ordering!</p>
+      </div>
+
+      <form action="{{ url_for('register') }}" method="POST" novalidate>
+
+        <!-- Full Name -->
+        <div class="mb-3">
+          <label class="form-label">Full Name *</label>
+          <div class="input-group">
+            <span class="input-group-text"
+                  style="border-color:#f0ddd6;background:var(--light-pink);">
+              <i class="bi bi-person" style="color:var(--brown)"></i>
+            </span>
+            <input type="text" name="full_name" class="form-control"
+                   placeholder="Your full name" required autofocus>
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div class="mb-3">
+          <label class="form-label">Email Address *</label>
+          <div class="input-group">
+            <span class="input-group-text"
+                  style="border-color:#f0ddd6;background:var(--light-pink);">
+              <i class="bi bi-envelope" style="color:var(--brown)"></i>
+            </span>
+            <input type="email" name="email" class="form-control"
+                   placeholder="you@example.com" required>
+          </div>
+        </div>
+
+        <!-- Phone -->
+        <div class="mb-3">
+          <label class="form-label">Phone Number</label>
+          <div class="input-group">
+            <span class="input-group-text"
+                  style="border-color:#f0ddd6;background:var(--light-pink);">
+              <i class="bi bi-telephone" style="color:var(--brown)"></i>
+            </span>
+            <input type="tel" name="phone" class="form-control"
+                   placeholder="10-digit mobile number">
+          </div>
+        </div>
+
+        <!-- Password -->
+        <div class="mb-3">
+          <label class="form-label">Password * <small class="text-muted">(min 6 characters)</small></label>
+          <div class="input-group">
+            <span class="input-group-text"
+                  style="border-color:#f0ddd6;background:var(--light-pink);">
+              <i class="bi bi-lock" style="color:var(--brown)"></i>
+            </span>
+            <input type="password" name="password" id="pwd"
+                   class="form-control" placeholder="Create a password"
+                   minlength="6" required>
+            <button class="btn btn-outline-secondary" type="button"
+                    onclick="togglePwd('pwd', this)">
+              <i class="bi bi-eye"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Confirm Password -->
+        <div class="mb-4">
+          <label class="form-label">Confirm Password *</label>
+          <div class="input-group">
+            <span class="input-group-text"
+                  style="border-color:#f0ddd6;background:var(--light-pink);">
+              <i class="bi bi-lock-fill" style="color:var(--brown)"></i>
+            </span>
+            <input type="password" name="confirm_password" id="cpwd"
+                   class="form-control" placeholder="Repeat your password" required>
+            <button class="btn btn-outline-secondary" type="button"
+                    onclick="togglePwd('cpwd', this)">
+              <i class="bi bi-eye"></i>
+            </button>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary-custom w-100 btn-lg">
+          <i class="bi bi-person-plus me-2"></i>Create Account
+        </button>
+
+      </form>
+
+      <hr class="my-4">
+
+      <p class="text-center text-muted mb-0">
+        Already have an account?
+        <a href="{{ url_for('login') }}" style="color:var(--brown);font-weight:600;">
+          Login here
+        </a>
+      </p>
+
+    </div>
+  </div>
+</section>
+
+{% block extra_js %}
+<script>
+  function togglePwd(id, btn) {
+    const inp = document.getElementById(id);
+    const icon = btn.querySelector('i');
+    if (inp.type === 'password') {
+      inp.type = 'text';
+      icon.classList.replace('bi-eye', 'bi-eye-slash');
+    } else {
+      inp.type = 'password';
+      icon.classList.replace('bi-eye-slash', 'bi-eye');
+    }
+  }
+</script>
+{% endblock %}
+
+{% endblock %}

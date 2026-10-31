@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+{% block title %}Checkout{% endblock %}
+
+{% block content %}
+
+<section class="py-5" style="background:#f8f0ec;">
+  <div class="container">
+
+    <h2 class="mb-4" style="color:var(--dark-brown)">
+      <i class="bi bi-bag-check me-2" style="color:var(--pink)"></i>Checkout
+    </h2>
+
+    <div class="row g-4">
+
+      <!-- ── Delivery Details Form ── -->
+      <div class="col-lg-7">
+        <div class="bg-white rounded-4 shadow-sm p-4">
+          <h5 class="mb-4" style="color:var(--dark-brown);font-family:'Playfair Display',serif;">
+            <i class="bi bi-geo-alt me-2"></i>Delivery Information
+          </h5>
+
+          <form action="{{ url_for('checkout') }}" method="POST">
+
+            <div class="mb-3">
+              <label class="form-label">Full Name *</label>
+              <input type="text" name="full_name" class="form-control"
+                     placeholder="Enter your full name"
+                     value="{{ session.get('user_name', '') }}" required>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Phone Number *</label>
+              <input type="tel" name="phone" class="form-control"
+                     placeholder="10-digit mobile number"
+                     pattern="[0-9]{10,15}" required>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Delivery Address *</label>
+              <textarea name="address" class="form-control" rows="3"
+                        placeholder="House no., Street, City, PIN code"
+                        required></textarea>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Preferred Delivery Date *</label>
+              <input type="date" name="delivery_date" class="form-control"
+                     id="delivery-date" required>
+            </div>
+
+            <div class="mb-4">
+              <label class="form-label">Payment Method</label>
+              <div class="form-check border rounded-3 p-3"
+                   style="border-color:var(--pink)!important;background:var(--light-pink);">
+                <input class="form-check-input" type="radio" name="payment_method"
+                       id="cod" value="Cash on Delivery" checked>
+                <label class="form-check-label fw-semibold" for="cod"
+                       style="color:var(--dark-brown)">
+                  <i class="bi bi-cash-coin me-2"></i>Cash on Delivery
+                  <small class="text-muted d-block fw-normal mt-1">
+                    Pay in cash when your order is delivered to your door.
+                  </small>
+                </label>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary-custom btn-lg w-100">
+              <i class="bi bi-check-circle me-2"></i>Place Order
+            </button>
+
+          </form>
+        </div>
+      </div>
+
+      <!-- ── Order Summary Sidebar ── -->
+      <div class="col-lg-5">
+        <div class="bg-white rounded-4 shadow-sm p-4">
+          <h5 class="mb-4" style="color:var(--dark-brown);font-family:'Playfair Display',serif;">
+            <i class="bi bi-receipt me-2"></i>Order Summary
+          </h5>
+
+          {% set bg_classes = ['bg-cake-1','bg-cake-4','bg-cake-9','bg-cake-11','bg-cake-5'] %}
+          {% for item in cart_items %}
+          <div class="d-flex align-items-center gap-3 mb-3">
+            <div style="width:48px;height:48px;border-radius:8px;font-size:1.5rem;
+                        display:flex;align-items:center;justify-content:center;flex-shrink:0;"
+                 class="{{ bg_classes[loop.index0 % bg_classes|length] }}">🎂</div>
+            <div class="flex-grow-1">
+              <div class="fw-semibold" style="font-size:0.9rem;color:var(--dark-brown)">
+                {{ item[4] }}
+              </div>
+              <small class="text-muted">{{ item[2] }} | {{ item[3] }} × {{ item[1] }}</small>
+            </div>
+            <div class="fw-semibold" style="color:var(--brown)">
+              ₹{{ "%.2f"|format(item[1] * item[5]) }}
+            </div>
+          </div>
+          {% endfor %}
+
+          <hr>
+
+          <div class="d-flex justify-content-between mb-1">
+            <span class="text-muted">Subtotal</span>
+            <span>₹{{ "%.2f"|format(total) }}</span>
+          </div>
+          <div class="d-flex justify-content-between mb-1">
+            <span class="text-muted">Delivery</span>
+            <span class="{{ 'text-success' if total >= 999 else '' }}">
+              {% if total >= 999 %}FREE{% else %}₹50.00{% endif %}
+            </span>
+          </div>
+
+          <hr>
+
+          <div class="d-flex justify-content-between">
+            <span class="fw-bold fs-5" style="color:var(--dark-brown)">Total</span>
+            <span class="fw-bold fs-5" style="color:var(--brown)">
+              ₹{{ "%.2f"|format(total if total >= 999 else total + 50) }}
+            </span>
+          </div>
+
+          <!-- Trust badges -->
+          <div class="mt-4 d-flex flex-wrap gap-2 justify-content-center">
+            <span class="badge rounded-pill px-3 py-2"
+                  style="background:var(--light-pink);color:var(--brown);font-size:0.75rem;">
+              <i class="bi bi-shield-check me-1"></i>Secure
+            </span>
+            <span class="badge rounded-pill px-3 py-2"
+                  style="background:var(--light-pink);color:var(--brown);font-size:0.75rem;">
+              <i class="bi bi-truck me-1"></i>Fast Delivery
+            </span>
+            <span class="badge rounded-pill px-3 py-2"
+                  style="background:var(--light-pink);color:var(--brown);font-size:0.75rem;">
+              <i class="bi bi-arrow-counterclockwise me-1"></i>Easy Returns
+            </span>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% block extra_js %}
+<script>
+  // Set minimum delivery date to tomorrow
+  const dateInput = document.getElementById('delivery-date');
+  const tomorrow  = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  dateInput.min = tomorrow.toISOString().split('T')[0];
+  dateInput.value = tomorrow.toISOString().split('T')[0];
+</script>
+{% endblock %}
+
+{% endblock %}

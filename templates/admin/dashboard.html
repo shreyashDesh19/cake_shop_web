@@ -1,0 +1,161 @@
+{% extends "admin/admin_base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block page_title %}Dashboard{% endblock %}
+
+{% block content %}
+
+<!-- ── Stats Cards ── -->
+<div class="row g-4 mb-4">
+
+  <div class="col-sm-6 col-xl-3">
+    <div class="stat-card" style="border-left-color:#F4A7B9;">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <p>Total Cakes</p>
+          <h3>{{ total_cakes }}</h3>
+        </div>
+        <i class="bi bi-cake2" style="font-size:2.5rem;color:#F4A7B9;opacity:0.6"></i>
+      </div>
+      <a href="{{ url_for('admin_cakes') }}" class="text-muted"
+         style="font-size:0.8rem;">Manage cakes →</a>
+    </div>
+  </div>
+
+  <div class="col-sm-6 col-xl-3">
+    <div class="stat-card" style="border-left-color:#5C3317;">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <p>Customers</p>
+          <h3>{{ total_customers }}</h3>
+        </div>
+        <i class="bi bi-people" style="font-size:2.5rem;color:#5C3317;opacity:0.6"></i>
+      </div>
+      <a href="{{ url_for('admin_customers') }}" class="text-muted"
+         style="font-size:0.8rem;">View customers →</a>
+    </div>
+  </div>
+
+  <div class="col-sm-6 col-xl-3">
+    <div class="stat-card" style="border-left-color:#E8739A;">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <p>Total Orders</p>
+          <h3>{{ total_orders }}</h3>
+        </div>
+        <i class="bi bi-bag-check" style="font-size:2.5rem;color:#E8739A;opacity:0.6"></i>
+      </div>
+      <a href="{{ url_for('admin_orders') }}" class="text-muted"
+         style="font-size:0.8rem;">View orders →</a>
+    </div>
+  </div>
+
+  <div class="col-sm-6 col-xl-3">
+    <div class="stat-card" style="border-left-color:#28a745;">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <p>Total Sales</p>
+          <h3>₹{{ "%.0f"|format(total_sales) }}</h3>
+        </div>
+        <i class="bi bi-currency-rupee" style="font-size:2.5rem;color:#28a745;opacity:0.6"></i>
+      </div>
+      <small class="text-muted">Excluding cancelled orders</small>
+    </div>
+  </div>
+
+</div>
+
+<div class="row g-4">
+
+  <!-- ── Recent Orders ── -->
+  <div class="col-lg-8">
+    <div class="bg-white rounded-4 shadow-sm p-4">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 style="color:var(--dark-brown);font-family:'Playfair Display',serif;">
+          <i class="bi bi-clock-history me-2" style="color:var(--pink)"></i>Recent Orders
+        </h5>
+        <a href="{{ url_for('admin_orders') }}" class="btn btn-sm btn-outline-secondary rounded-pill">
+          View All
+        </a>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table table-hover align-middle">
+          <thead style="background:#f8f0ec;">
+            <tr>
+              <th>#ID</th>
+              <th>Customer</th>
+              <th>Amount</th>
+              <th>Date</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for o in recent_orders %}
+            {# o: id,user_id,full_name,phone,address,delivery_date,payment,total,status,created_at,customer_name #}
+            <tr>
+              <td><strong>#{{ o[0] }}</strong></td>
+              <td>{{ o[10] }}</td>
+              <td class="fw-semibold" style="color:var(--brown)">
+                ₹{{ "%.2f"|format(o[7]) }}
+              </td>
+              <td>{{ o[9].strftime('%d %b %Y') if o[9] else '' }}</td>
+              <td>
+                <span class="status-badge status-{{ o[8].replace(' ', '-') }}">
+                  {{ o[8] }}
+                </span>
+              </td>
+            </tr>
+            {% else %}
+            <tr><td colspan="5" class="text-center text-muted py-3">No orders yet.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Order Status Breakdown ── -->
+  <div class="col-lg-4">
+    <div class="bg-white rounded-4 shadow-sm p-4 h-100">
+      <h5 class="mb-4" style="color:var(--dark-brown);font-family:'Playfair Display',serif;">
+        <i class="bi bi-pie-chart me-2" style="color:var(--pink)"></i>Order Status
+      </h5>
+
+      {% set status_colors = {
+        'Pending':          '#ffc107',
+        'Confirmed':        '#17a2b8',
+        'Baking':           '#fd7e14',
+        'Out for Delivery': '#28a745',
+        'Delivered':        '#20c997',
+        'Cancelled':        '#dc3545'
+      } %}
+
+      {% for row in status_counts %}
+      {# row: (status, count) #}
+      <div class="mb-3">
+        <div class="d-flex justify-content-between mb-1">
+          <span style="font-size:0.9rem;color:var(--dark-brown);">{{ row[0] }}</span>
+          <span class="fw-semibold">{{ row[1] }}</span>
+        </div>
+        <div class="progress" style="height:8px;border-radius:4px;">
+          <div class="progress-bar" role="progressbar"
+               style="width:{{ (row[1] / total_orders * 100) if total_orders > 0 else 0 }}%;
+                      background:{{ status_colors.get(row[0], '#ccc') }};border-radius:4px;">
+          </div>
+        </div>
+      </div>
+      {% else %}
+      <p class="text-muted text-center py-4">No orders yet.</p>
+      {% endfor %}
+
+      <hr class="mt-4">
+      <div class="d-flex justify-content-between fw-bold" style="color:var(--dark-brown)">
+        <span>Total Orders</span>
+        <span>{{ total_orders }}</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+{% endblock %}

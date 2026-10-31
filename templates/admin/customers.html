@@ -1,0 +1,64 @@
+{% extends "admin/admin_base.html" %}
+{% block title %}Customers{% endblock %}
+{% block page_title %}Registered Customers{% endblock %}
+
+{% block content %}
+
+<div class="bg-white rounded-4 shadow-sm p-4">
+  <h5 class="mb-4" style="color:var(--dark-brown);font-family:'Playfair Display',serif;">
+    All Customers ({{ customers|length }})
+  </h5>
+
+  <div class="table-responsive">
+    <table class="table table-hover align-middle">
+      <thead style="background:#f8f0ec;">
+        <tr>
+          <th>#ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Orders</th>
+          <th>Registered</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for customer in customers %}
+        {# customer: 0=id,1=full_name,2=email,3=phone,4=password,5=created_at,6=total_orders #}
+        <tr>
+          <td><strong>#{{ customer[0] }}</strong></td>
+          <td>
+            <div class="d-flex align-items-center gap-2">
+              <div style="width:36px;height:36px;border-radius:50%;
+                          background:var(--light-pink);display:flex;
+                          align-items:center;justify-content:center;
+                          font-size:1rem;color:var(--brown);">
+                {{ customer[1][0].upper() }}
+              </div>
+              <span class="fw-semibold" style="color:var(--dark-brown)">{{ customer[1] }}</span>
+            </div>
+          </td>
+          <td>{{ customer[2] }}</td>
+          <td>{{ customer[3] or '—' }}</td>
+          <td>
+            <span class="badge rounded-pill"
+                  style="background:var(--light-pink);color:var(--brown);font-size:0.8rem;">
+              {{ customer[6] }} order{{ 's' if customer[6] != 1 }}
+            </span>
+          </td>
+          <td class="text-muted" style="font-size:0.85rem;">
+            {{ customer[5].strftime('%d %b %Y') if customer[5] else '' }}
+          </td>
+        </tr>
+        {% else %}
+        <tr>
+          <td colspan="6" class="text-center text-muted py-4">
+            No customers registered yet.
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock %}

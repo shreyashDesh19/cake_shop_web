@@ -1,0 +1,180 @@
+{% extends "base.html" %}
+{% block title %}{{ cake[2] }}{% endblock %}
+
+{% block content %}
+
+<section class="py-5">
+  <div class="container">
+
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" class="mb-4">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Home</a></li>
+        <li class="breadcrumb-item"><a href="{{ url_for('cakes') }}">Cakes</a></li>
+        <li class="breadcrumb-item active">{{ cake[2] }}</li>
+      </ol>
+    </nav>
+
+    <div class="row g-5">
+
+      <!-- ── Cake Image ── -->
+      <div class="col-md-5">
+        <div class="cake-detail-img-placeholder bg-cake-{{ (cake[0] % 12) + 1 }}"
+             style="font-size:8rem;">
+          🎂
+        </div>
+        <!-- Thumbnails row (decorative) -->
+        <div class="d-flex gap-2 mt-3 justify-content-center">
+          {% for i in range(3) %}
+          <div style="width:72px;height:72px;border-radius:10px;font-size:2rem;
+                      display:flex;align-items:center;justify-content:center;
+                      background:var(--light-pink);cursor:pointer;">
+            🎂
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- ── Cake Details ── -->
+      <div class="col-md-7">
+        <span class="category-badge mb-2 d-inline-block">{{ cake[11] }}</span>
+        {% if cake[8] %}
+          <span class="badge bg-warning text-dark ms-2" style="font-size:0.75rem;">⭐ Featured</span>
+        {% endif %}
+
+        <h1 class="mt-2 mb-3" style="color:var(--dark-brown);font-size:2rem;">{{ cake[2] }}</h1>
+
+        <!-- Price display -->
+        <div class="mb-3">
+          <span id="price-display" style="font-size:2rem;font-weight:700;color:var(--brown);">
+            ₹{{ "%.2f"|format(cake[4]) }}
+          </span>
+          <span id="base-price" data-price="{{ cake[4] }}" class="d-none"></span>
+          <span class="text-muted ms-2" style="font-size:0.9rem;">onwards (1kg)</span>
+        </div>
+
+        <!-- Description -->
+        <p class="text-muted mb-4" style="line-height:1.8;">{{ cake[3] }}</p>
+
+        <!-- Highlights -->
+        <div class="row g-2 mb-4">
+          <div class="col-auto">
+            <span class="badge rounded-pill px-3 py-2"
+                  style="background:var(--light-pink);color:var(--brown);font-size:0.8rem;">
+              <i class="bi bi-truck me-1"></i>Home Delivery
+            </span>
+          </div>
+          <div class="col-auto">
+            <span class="badge rounded-pill px-3 py-2"
+                  style="background:var(--light-pink);color:var(--brown);font-size:0.8rem;">
+              <i class="bi bi-cash me-1"></i>Cash on Delivery
+            </span>
+          </div>
+          <div class="col-auto">
+            <span class="badge rounded-pill px-3 py-2"
+                  style="background:var(--light-pink);color:var(--brown);font-size:0.8rem;">
+              <i class="bi bi-shield-check me-1"></i>Fresh & Hygienic
+            </span>
+          </div>
+        </div>
+
+        <!-- ── Add to Cart Form ── -->
+        {% if session.get('user_id') %}
+        <form action="{{ url_for('cart_add') }}" method="POST">
+          <input type="hidden" name="cake_id" value="{{ cake[0] }}">
+
+          <div class="row g-3 mb-3">
+
+            <!-- Size -->
+            <div class="col-sm-4">
+              <label class="form-label fw-semibold" style="color:var(--dark-brown)">
+                <i class="bi bi-rulers me-1"></i>Size
+              </label>
+              <select name="size" id="size-select" class="form-select">
+                {% for size in sizes %}
+                <option value="{{ size }}" {% if size == '1kg' %}selected{% endif %}>{{ size }}</option>
+                {% endfor %}
+              </select>
+            </div>
+
+            <!-- Flavour -->
+            <div class="col-sm-4">
+              <label class="form-label fw-semibold" style="color:var(--dark-brown)">
+                <i class="bi bi-palette me-1"></i>Flavour
+              </label>
+              <select name="flavour" class="form-select">
+                {% for flavour in flavours %}
+                <option value="{{ flavour }}">{{ flavour }}</option>
+                {% endfor %}
+              </select>
+            </div>
+
+            <!-- Quantity -->
+            <div class="col-sm-4">
+              <label class="form-label fw-semibold" style="color:var(--dark-brown)">
+                <i class="bi bi-hash me-1"></i>Quantity
+              </label>
+              <div class="input-group qty-group">
+                <button type="button" class="btn btn-outline-secondary qty-decrease">−</button>
+                <input type="number" name="quantity" class="form-control text-center qty-input"
+                       value="1" min="1" max="20" style="max-width:60px;">
+                <button type="button" class="btn btn-outline-secondary qty-increase">+</button>
+              </div>
+            </div>
+
+          </div>
+
+          <button type="submit" class="btn btn-primary-custom btn-lg px-5">
+            <i class="bi bi-cart-plus me-2"></i>Add to Cart
+          </button>
+          <a href="{{ url_for('cakes') }}" class="btn btn-outline-secondary btn-lg ms-2 rounded-pill">
+            Continue Shopping
+          </a>
+        </form>
+
+        {% else %}
+        <!-- Not logged in -->
+        <div class="alert alert-warning rounded-3">
+          <i class="bi bi-lock me-2"></i>
+          <strong>Please <a href="{{ url_for('login') }}">log in</a></strong>
+          to add items to your cart and place orders.
+        </div>
+        <a href="{{ url_for('login') }}" class="btn btn-primary-custom btn-lg px-5">
+          Login to Order
+        </a>
+        {% endif %}
+
+      </div>
+    </div>
+
+    <!-- ── Related Cakes ── -->
+    {% if related %}
+    <div class="mt-5">
+      <h3 style="color:var(--dark-brown);" class="mb-4">You May Also Like</h3>
+      <div class="row g-4">
+        {% set bg_classes = ['bg-cake-2','bg-cake-5','bg-cake-8','bg-cake-11'] %}
+        {% for rc in related %}
+        <div class="col-sm-6 col-md-3">
+          <div class="cake-card h-100">
+            <div class="cake-card-img-placeholder {{ bg_classes[loop.index0 % bg_classes|length] }}">
+              🎂
+            </div>
+            <div class="cake-card-body">
+              <div class="cake-card-title">{{ rc[2] }}</div>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="cake-price">₹{{ "%.2f"|format(rc[4]) }}</div>
+                <a href="{{ url_for('cake_detail', cake_id=rc[0]) }}"
+                   class="btn btn-primary-custom btn-sm">View</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+  </div>
+</section>
+
+{% endblock %}

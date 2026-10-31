@@ -1,0 +1,537 @@
+/* =====================================================================
+   Sweet Cravings – Custom Stylesheet
+   Colour Palette:
+     Cream:          #FFF8F0
+     Pastel Pink:    #F4A7B9
+     Chocolate Brown:#5C3317
+     Light Pink:     #FDDDE6
+     Dark Brown:     #3E1F0D
+   ===================================================================== */
+
+/* ── Google Fonts ──────────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap');
+
+/* ── CSS Variables ─────────────────────────────────────────────────── */
+:root {
+  --cream:       #FFF8F0;
+  --pink:        #F4A7B9;
+  --light-pink:  #FDDDE6;
+  --brown:       #5C3317;
+  --dark-brown:  #3E1F0D;
+  --accent:      #E8739A;
+  --text:        #3a3a3a;
+  --shadow:      rgba(92, 51, 23, 0.15);
+}
+
+/* ── Base Styles ───────────────────────────────────────────────────── */
+* { box-sizing: border-box; }
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--cream);
+  color: var(--text);
+  margin: 0;
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: 'Playfair Display', serif;
+}
+
+a { text-decoration: none; color: inherit; }
+
+/* ── Scrollbar ─────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--light-pink); }
+::-webkit-scrollbar-thumb { background: var(--pink); border-radius: 4px; }
+
+/* ── Navbar ────────────────────────────────────────────────────────── */
+.navbar {
+  background: var(--dark-brown) !important;
+  padding: 12px 0;
+  box-shadow: 0 2px 12px var(--shadow);
+}
+
+.navbar-brand {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem;
+  color: var(--light-pink) !important;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.navbar-brand span { color: var(--pink); }
+
+.nav-link {
+  color: #f5e6d8 !important;
+  font-weight: 500;
+  padding: 6px 14px !important;
+  border-radius: 20px;
+  transition: all 0.3s;
+}
+
+.nav-link:hover, .nav-link.active {
+  background: var(--pink);
+  color: var(--dark-brown) !important;
+}
+
+.cart-badge {
+  background: var(--accent);
+  color: white;
+  border-radius: 50%;
+  font-size: 0.7rem;
+  padding: 2px 6px;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+/* ── Buttons ───────────────────────────────────────────────────────── */
+.btn-primary-custom {
+  background: linear-gradient(135deg, var(--pink), var(--accent));
+  color: white;
+  border: none;
+  border-radius: 25px;
+  padding: 10px 28px;
+  font-weight: 600;
+  transition: all 0.3s;
+  box-shadow: 0 4px 12px rgba(232, 115, 154, 0.35);
+}
+
+.btn-primary-custom:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(232, 115, 154, 0.5);
+  color: white;
+}
+
+.btn-brown {
+  background: var(--brown);
+  color: var(--cream);
+  border: none;
+  border-radius: 25px;
+  padding: 10px 28px;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.btn-brown:hover {
+  background: var(--dark-brown);
+  color: var(--cream);
+  transform: translateY(-2px);
+}
+
+/* ── Hero Section ──────────────────────────────────────────────────── */
+.hero {
+  background: linear-gradient(135deg, var(--dark-brown) 0%, var(--brown) 50%, #8B4513 100%);
+  min-height: 92vh;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(244,167,185,0.15) 0%, transparent 70%);
+  top: -100px;
+  right: -100px;
+  border-radius: 50%;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(253,221,230,0.1) 0%, transparent 70%);
+  bottom: -50px;
+  left: 10%;
+  border-radius: 50%;
+}
+
+.hero h1 {
+  color: var(--light-pink);
+  font-size: 3.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.hero h1 span { color: var(--pink); }
+
+.hero p {
+  color: #d4b8a8;
+  font-size: 1.1rem;
+  margin: 20px 0 30px;
+}
+
+.hero-image-box {
+  width: 380px;
+  height: 380px;
+  background: radial-gradient(circle at 30% 30%, #f5c6d0, #e8a0b4, var(--pink));
+  border-radius: 50% 30% 50% 30%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10rem;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  animation: float 4s ease-in-out infinite;
+  margin: auto;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-18px); }
+}
+
+/* ── Section Headings ──────────────────────────────────────────────── */
+.section-heading {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.section-heading h2 {
+  font-size: 2.4rem;
+  color: var(--dark-brown);
+  position: relative;
+  display: inline-block;
+}
+
+.section-heading h2::after {
+  content: '';
+  display: block;
+  width: 70px;
+  height: 3px;
+  background: var(--pink);
+  margin: 10px auto 0;
+  border-radius: 2px;
+}
+
+.section-heading p { color: #888; margin-top: 12px; }
+
+/* ── Cake Card ─────────────────────────────────────────────────────── */
+.cake-card {
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px var(--shadow);
+  transition: all 0.35s ease;
+  height: 100%;
+}
+
+.cake-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 35px rgba(92,51,23,0.2);
+}
+
+.cake-card-img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  display: block;
+}
+
+.cake-card-img-placeholder {
+  width: 100%;
+  height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 5rem;
+}
+
+.cake-card-body {
+  padding: 18px 20px 22px;
+}
+
+.cake-card-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  color: var(--dark-brown);
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.cake-card-desc {
+  font-size: 0.84rem;
+  color: #888;
+  margin-bottom: 12px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.cake-price {
+  font-size: 1.25rem;
+  color: var(--brown);
+  font-weight: 700;
+}
+
+.cake-price span {
+  font-size: 0.78rem;
+  color: #aaa;
+  font-weight: 400;
+}
+
+.category-badge {
+  background: var(--light-pink);
+  color: var(--brown);
+  border-radius: 12px;
+  font-size: 0.72rem;
+  padding: 3px 10px;
+  font-weight: 600;
+}
+
+/* ── Category Cards ────────────────────────────────────────────────── */
+.category-card {
+  background: white;
+  border-radius: 18px;
+  padding: 28px 20px;
+  text-align: center;
+  box-shadow: 0 4px 16px var(--shadow);
+  transition: all 0.3s;
+  cursor: pointer;
+  border: 2px solid transparent;
+  display: block;
+  color: var(--text);
+}
+
+.category-card:hover {
+  border-color: var(--pink);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 28px rgba(244,167,185,0.4);
+  color: var(--dark-brown);
+}
+
+.category-icon {
+  font-size: 2.5rem;
+  margin-bottom: 12px;
+  display: block;
+  color: var(--pink);
+}
+
+.category-name {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--dark-brown);
+}
+
+/* ── Stats Bar ─────────────────────────────────────────────────────── */
+.stats-bar {
+  background: linear-gradient(135deg, var(--brown), var(--dark-brown));
+  padding: 50px 0;
+}
+
+.stat-item { text-align: center; }
+
+.stat-number {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.8rem;
+  color: var(--light-pink);
+  font-weight: 700;
+}
+
+.stat-label { color: #c9a898; font-size: 0.9rem; margin-top: 4px; }
+
+/* ── Cart Table ────────────────────────────────────────────────────── */
+.cart-table {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px var(--shadow);
+}
+
+.cart-table thead {
+  background: var(--dark-brown);
+  color: var(--light-pink);
+}
+
+.cart-total-box {
+  background: white;
+  border-radius: 16px;
+  padding: 28px;
+  box-shadow: 0 4px 20px var(--shadow);
+}
+
+/* ── Forms ─────────────────────────────────────────────────────────── */
+.form-card {
+  background: white;
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 8px 32px var(--shadow);
+  max-width: 500px;
+  margin: 60px auto;
+}
+
+.form-label { font-weight: 600; color: var(--dark-brown); margin-bottom: 5px; }
+
+.form-control, .form-select {
+  border: 2px solid #f0ddd6;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-family: 'Poppins', sans-serif;
+  transition: border-color 0.3s;
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: var(--pink);
+  box-shadow: 0 0 0 0.2rem rgba(244,167,185,0.25);
+}
+
+/* ── Order Status Badges ───────────────────────────────────────────── */
+.status-badge {
+  border-radius: 12px;
+  padding: 5px 14px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.status-Pending          { background: #fff3cd; color: #856404; }
+.status-Confirmed        { background: #d1ecf1; color: #0c5460; }
+.status-Baking           { background: #fde8d8; color: #8a3a00; }
+.status-Out-for-Delivery { background: #d4edda; color: #155724; }
+.status-Delivered        { background: #c3e6cb; color: #1b5e20; }
+.status-Cancelled        { background: #f8d7da; color: #721c24; }
+
+/* ── Admin Sidebar ─────────────────────────────────────────────────── */
+.admin-sidebar {
+  background: var(--dark-brown);
+  min-height: 100vh;
+  padding: 0;
+  width: 250px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+}
+
+.admin-sidebar-brand {
+  padding: 24px 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.admin-sidebar-brand h5 {
+  color: var(--light-pink);
+  margin: 0;
+  font-family: 'Playfair Display', serif;
+}
+
+.admin-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 22px;
+  color: #c9a898;
+  transition: all 0.3s;
+  font-weight: 500;
+}
+
+.admin-nav-link:hover, .admin-nav-link.active {
+  background: rgba(244,167,185,0.15);
+  color: var(--light-pink);
+  border-left: 3px solid var(--pink);
+}
+
+.admin-content {
+  margin-left: 250px;
+  padding: 30px;
+  min-height: 100vh;
+  background: #f8f0ec;
+}
+
+.stat-card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 16px var(--shadow);
+  border-left: 5px solid var(--pink);
+  transition: transform 0.3s;
+}
+
+.stat-card:hover { transform: translateY(-4px); }
+
+.stat-card h3 {
+  font-size: 2rem;
+  color: var(--dark-brown);
+  font-weight: 700;
+}
+
+.stat-card p { color: #888; margin: 0; font-size: 0.9rem; }
+
+/* ── Alerts ────────────────────────────────────────────────────────── */
+.alert { border-radius: 12px; border: none; }
+
+/* ── Cake Detail Page ──────────────────────────────────────────────── */
+.cake-detail-img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px var(--shadow);
+}
+
+.cake-detail-img-placeholder {
+  width: 100%;
+  height: 400px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9rem;
+  box-shadow: 0 8px 32px var(--shadow);
+}
+
+/* ── Footer ────────────────────────────────────────────────────────── */
+footer {
+  background: var(--dark-brown);
+  color: #c9a898;
+  padding: 50px 0 24px;
+}
+
+footer h5 {
+  color: var(--light-pink);
+  font-family: 'Playfair Display', serif;
+  margin-bottom: 16px;
+}
+
+footer a { color: #c9a898; transition: color 0.3s; }
+footer a:hover { color: var(--pink); }
+
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.1);
+  padding-top: 20px;
+  margin-top: 30px;
+  text-align: center;
+  color: #8a6a5e;
+  font-size: 0.85rem;
+}
+
+/* ── Background Gradients for Cake Placeholders ────────────────────── */
+.bg-cake-1  { background: linear-gradient(135deg, #f7c9d4, #f4a7b9); }
+.bg-cake-2  { background: linear-gradient(135deg, #d4a0c8, #b87ab5); }
+.bg-cake-3  { background: linear-gradient(135deg, #a8d8a8, #6dbf6d); }
+.bg-cake-4  { background: linear-gradient(135deg, #8b4513, #5c3317); }
+.bg-cake-5  { background: linear-gradient(135deg, #ffd700, #ffa500); }
+.bg-cake-6  { background: linear-gradient(135deg, #ff9999, #ff6666); }
+.bg-cake-7  { background: linear-gradient(135deg, #f5f5dc, #d2b48c); }
+.bg-cake-8  { background: linear-gradient(135deg, #add8e6, #87ceeb); }
+.bg-cake-9  { background: linear-gradient(135deg, #2d1b00, #4a2700); color:#f5c6d0; }
+.bg-cake-10 { background: linear-gradient(135deg, #dda0dd, #da70d6); }
+.bg-cake-11 { background: linear-gradient(135deg, #f4a7b9, #e8739a); }
+.bg-cake-12 { background: linear-gradient(135deg, #c3e6cb, #90d0a0); }
+
+/* ── Responsive ────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .hero h1       { font-size: 2.2rem; }
+  .hero-image-box { width: 260px; height: 260px; font-size: 6rem; }
+  .admin-sidebar { display: none; }
+  .admin-content { margin-left: 0; }
+  .form-card     { padding: 24px; margin: 30px 16px; }
+}
+
+@media (max-width: 576px) {
+  .section-heading h2 { font-size: 1.8rem; }
+}

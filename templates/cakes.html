@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+{% block title %}All Cakes{% endblock %}
+
+{% block content %}
+
+<!-- Page Header -->
+<section style="background:linear-gradient(135deg,var(--dark-brown),var(--brown));padding:60px 0 40px;">
+  <div class="container text-center">
+    <h1 style="color:var(--light-pink);font-family:'Playfair Display',serif;">Our Cake Collection</h1>
+    <p style="color:#d4b8a8;">Browse, search and filter from our delicious menu</p>
+  </div>
+</section>
+
+<section class="py-5">
+  <div class="container">
+
+    <!-- ── Search & Filter Bar ── -->
+    <div class="card border-0 shadow-sm rounded-4 mb-4 p-3"
+         style="background:white;">
+      <form id="search-form" method="GET" action="{{ url_for('cakes') }}">
+        <div class="row g-3 align-items-end">
+
+          <!-- Search box -->
+          <div class="col-md-5">
+            <label class="form-label fw-semibold" style="color:var(--dark-brown)">
+              <i class="bi bi-search me-1"></i>Search Cakes
+            </label>
+            <input type="text" id="search-input" name="search"
+                   class="form-control" placeholder="e.g. Chocolate, Birthday..."
+                   value="{{ search }}">
+          </div>
+
+          <!-- Category filter -->
+          <div class="col-md-4">
+            <label class="form-label fw-semibold" style="color:var(--dark-brown)">
+              <i class="bi bi-filter me-1"></i>Category
+            </label>
+            <select name="category" class="form-select">
+              <option value="">All Categories</option>
+              {% for cat in categories %}
+              <option value="{{ cat[0] }}" {% if cat_filter == cat[0]|string %}selected{% endif %}>
+                {{ cat[1] }}
+              </option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <!-- Submit -->
+          <div class="col-md-3 d-flex gap-2">
+            <button type="submit" class="btn btn-primary-custom flex-grow-1">
+              <i class="bi bi-search me-1"></i>Search
+            </button>
+            {% if search or cat_filter %}
+            <a href="{{ url_for('cakes') }}" class="btn btn-outline-secondary rounded-pill">
+              <i class="bi bi-x-lg"></i>
+            </a>
+            {% endif %}
+          </div>
+
+        </div>
+      </form>
+    </div>
+
+    <!-- ── Category Pills ── -->
+    <div class="mb-4 d-flex flex-wrap gap-2">
+      <a href="{{ url_for('cakes') }}"
+         class="btn btn-sm rounded-pill {{ 'btn-brown' if not cat_filter else 'btn-outline-secondary' }}">
+        All
+      </a>
+      {% for cat in categories %}
+      <a href="{{ url_for('cakes', category=cat[0]) }}"
+         class="btn btn-sm rounded-pill
+                {{ 'btn-brown' if cat_filter == cat[0]|string else 'btn-outline-secondary' }}">
+        {{ cat[1] }}
+      </a>
+      {% endfor %}
+    </div>
+
+    <!-- ── Result Count ── -->
+    <p class="text-muted mb-4">
+      <i class="bi bi-grid me-1"></i>
+      Showing <strong>{{ cakes|length }}</strong> cake{{ 's' if cakes|length != 1 }}
+      {% if search %} for "<em>{{ search }}</em>"{% endif %}
+    </p>
+
+    <!-- ── Cake Grid ── -->
+    {% set bg_classes = ['bg-cake-1','bg-cake-2','bg-cake-3','bg-cake-4','bg-cake-5',
+                          'bg-cake-6','bg-cake-7','bg-cake-8','bg-cake-9','bg-cake-10',
+                          'bg-cake-11','bg-cake-12'] %}
+    {% set cake_emojis = ['🎂','🍰','🎁','🍫','🌸','🎉','👑','🌺','🍒','💜','📸','🔢'] %}
+
+    <div class="row g-4">
+      {% for cake in cakes %}
+      <div class="col-sm-6 col-md-4 col-lg-3">
+        <div class="cake-card h-100">
+
+          <!-- Cake image (emoji placeholder until real image is uploaded) -->
+          <div class="cake-card-img-placeholder {{ bg_classes[loop.index0 % bg_classes|length] }}">
+            {{ cake_emojis[loop.index0 % cake_emojis|length] }}
+          </div>
+
+          <div class="cake-card-body d-flex flex-column">
+            <span class="category-badge mb-2 align-self-start">{{ cake[11] }}</span>
+            <div class="cake-card-title">{{ cake[2] }}</div>
+            <div class="cake-card-desc">{{ cake[3] }}</div>
+
+            <div class="d-flex justify-content-between align-items-center mt-auto pt-2">
+              <div class="cake-price">₹{{ "%.2f"|format(cake[4]) }} <span>/1kg</span></div>
+              <a href="{{ url_for('cake_detail', cake_id=cake[0]) }}"
+                 class="btn btn-primary-custom btn-sm">
+                Order
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      {% else %}
+      <div class="col-12 text-center py-5">
+        <div style="font-size:4rem;">🔍</div>
+        <h4 class="mt-3" style="color:var(--dark-brown)">No cakes found</h4>
+        <p class="text-muted">Try a different search term or category.</p>
+        <a href="{{ url_for('cakes') }}" class="btn btn-brown mt-2">View All Cakes</a>
+      </div>
+      {% endfor %}
+    </div>
+
+  </div>
+</section>
+
+{% endblock %}
